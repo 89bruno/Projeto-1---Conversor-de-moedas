@@ -1,9 +1,5 @@
-""" Projeto 1 - Conversor de Reais para Euros, BitCoin e Dolares
-Aplicando uma API para obter as cotações em tempo real
-Utilizando um loop para a entrada de valores
-Imprimindo a cotaçao e o momento da consulta
+# Projeto 1 - Conversor de Reais para Euros, BitCoin e Dolares
 
-"""
 import requests
 from time import gmtime, strftime
 
