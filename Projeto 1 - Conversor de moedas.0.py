@@ -45,8 +45,7 @@ ReaisToBit = (Valor / CotBit)
 if ReaisToBit >= 1:
        NovoReaisToBit = str(round(ReaisToBit, 2)).replace('.', ',')
 else:
-    NovoReaisToBit = round(ReaisToBit, 5)
-
+    NovoReaisToBit = str(round(ReaisToBit, 3)).replace('.', ',')
 
 # Imprimindo os resultados:
 Data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
