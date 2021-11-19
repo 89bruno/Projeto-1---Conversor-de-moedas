@@ -31,11 +31,9 @@ CotBit = float(Bitcoin["bid"])
 
 # Convertendo os valores:
 Valor = float(Reais)
-ReaisToDolar = round((Valor / CotDolar),2)
-ReaisToDolar = str(ReaisToDolar).replace('.',',')
+ReaisToDolar = str(round((Valor / CotDolar),2)).replace('.',',')
 
-ReaisToEuro = round((Valor / CotEuro),2)
-ReaisToEuro = str(ReaisToEuro).replace('.',',')
+ReaisToEuro = str(round((Valor / CotEuro),2)).replace('.',',')
 
 ReaisToBit = (Valor / CotBit)
 if ReaisToBit >= 1:
@@ -46,9 +44,9 @@ else:
 # Imprimindo os resultados:
 Data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
 print (f"""Na cotação de hoje*, R${Reais} equivalem a:
-    U$ {ReaisToDolar}\n
-    € {ReaisToEuro}\n
-    ₿ {NovoReaisToBit}\n
+    U$ {ReaisToDolar}
+    € {ReaisToEuro}
+    ₿ {NovoReaisToBit}
 *Cotação obtida em {Data}""")
 
 
