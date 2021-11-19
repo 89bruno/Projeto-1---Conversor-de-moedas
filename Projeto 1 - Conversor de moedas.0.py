@@ -11,7 +11,6 @@ while True:
     if not Reais.isnumeric():
         Reais = input(f'{Reais} não é um valor válido, entre com um valor numérico inteiro:')
         continue
-
     else:
         print(f"""Ok, vamos lá! Convertendo R${Reais},00 para Dolar, Euro e Bitcoin\n""")
         break
