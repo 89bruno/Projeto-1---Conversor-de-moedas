@@ -5,10 +5,9 @@ from time import gmtime, strftime
 
 # Passo Inicial - Entrada dos valores
 Nome = input("Bem-vindo(a), qual seu nome?")
-
 Reais = (input(f"""Olá {Nome}, digite o valor em Reais (R$) que você deseja converter e precione enter: \n"""))
-while True:
 
+while True:
     if not Reais.isnumeric():
         Reais = input(f'{Reais} não é um valor válido, entre com um valor numérico inteiro:')
         continue
@@ -43,7 +42,7 @@ else:
 
 # Imprimindo os resultados:
 Data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
-print (f"""Na cotação de hoje*, R${Reais} equivalem a:
+print (f"""Na cotação de hoje*, R${Reais},00 equivalem a:
     U$ {ReaisToDolar}
     € {ReaisToEuro}
     ₿ {NovoReaisToBit}
