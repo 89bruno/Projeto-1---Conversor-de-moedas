@@ -5,14 +5,16 @@ from time import gmtime, strftime
 
 # Passo Inicial - Entrada dos valores
 nome = input("Bem-vindo(a), qual seu nome?")
-reais = (input(f"""Olá {nome}, digite o valor em Reais (R$) que você deseja converter e precione enter: \n"""))
+reais = input(f'Olá {nome}, digite o valor em Reais (R$) que você deseja converter e precione enter: \n')
 
 while True:
     if not reais.isnumeric():
         reais = input(f'{reais} não é um valor válido, entre com um valor numérico inteiro:')
         continue
     else:
-        print(f"""Ok, vamos lá! Convertendo R${reais},00 para Dolar, Euro e Bitcoin\n""")
+        reais.
+        reais = float(reais)
+        print(f'Ok, vamos lá! Convertendo R${reais},00 para Dolar, Euro e Bitcoin\n')
         break
 
 # Obtendo as Cotações:
@@ -21,7 +23,7 @@ moeda = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BT
 dolar = moeda['USDBRL']
 cot_dolar = float(dolar["bid"])
 
-euro = Moeda['EURBRL']
+euro = moeda['EURBRL']
 cot_euro = float(euro["bid"])
 
 bitcoin = moeda['BTCBRL']
