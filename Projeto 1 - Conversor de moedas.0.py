@@ -12,7 +12,6 @@ while True:
         reais = input(f'{reais} não é um valor válido, entre com um valor numérico inteiro:')
         continue
     else:
-        reais.
         reais = float(reais)
         print(f'Ok, vamos lá! Convertendo R${reais},00 para Dolar, Euro e Bitcoin\n')
         break
