@@ -3,49 +3,64 @@
 import requests
 from time import gmtime, strftime
 
-# Passo Inicial - Entrada dos valores
-nome = input("Bem-vindo(a), qual seu nome?")
-reais = input(f'Olá {nome}, digite o valor em Reais (R$) que você deseja converter e precione enter: \n')
+class ConversorDeMoedas:
+    def __init__(self):
+        self.recebendo_entradas()
+        self.validando_entrada()
+        self.obtendo_cotacoes()
+        self.convertendo()
+        self.imprimindo_resultado()
 
-while True:
-    if not reais.isnumeric():
-        reais = input(f'{reais} não é um valor válido, entre com um valor numérico inteiro:')
-        continue
-    else:
-        reais = float(reais)
-        print(f'Ok, vamos lá! Convertendo R${reais},00 para Dolar, Euro e Bitcoin\n')
-        break
+    def recebendo_entradas(self):
+        self.reais = input(f'Olá, digite o valor em Reais (R$) que você deseja converter e precione enter: \n')
+        return self.reais
 
-# Obtendo as Cotações:
-moeda = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").json()
+    def validando_entrada(self):
+        while True:
+            try:
+                self.reais = str(self.reais).replace(",",".")
+                self.reais = float(self.reais)
+                print(f"Ok, convertendo R${self.reais}")
+                return self.reais
+            except:
+                self.reais = input("Você não digitou um valor inválido,"
+                                   " insira novamente o valor que deseja converter")
+                continue
 
-dolar = moeda['USDBRL']
-cot_dolar = float(dolar["bid"])
+    def obtendo_cotacoes(self):
+        moeda = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").json()
 
-euro = moeda['EURBRL']
-cot_euro = float(euro["bid"])
+        dolar = moeda['USDBRL']
+        self.cot_dolar = float(dolar["bid"])
 
-bitcoin = moeda['BTCBRL']
-cot_bit = float(bitcoin["bid"])
+        euro = moeda['EURBRL']
+        self.cot_euro = float(euro["bid"])
 
-# Convertendo os valores:
-valor = float(reais)
-reais_para_dolar = str(round((valor / cot_dolar),2)).replace('.',',')
+        bitcoin = moeda['BTCBRL']
+        self.cot_bit = float(bitcoin["bid"])
+        return self.cot_dolar, self.cot_euro, self.cot_bit
 
-reais_para_euro = str(round((valor / cot_euro),2)).replace('.',',')
+    def convertendo(self):
+        self.reais_para_dolar = round(float(self.reais) / float(self.cot_dolar),2)
+        self.reais_para_euro = round(float(self.reais) / float(self.cot_euro),2)
+        self.reais_para_bit = float(self.reais) / float(self.cot_bit)
+        if self.reais_para_bit > 1:
+            self.novo_reais_para_bit = round(self.reais_para_bit, 2)
+        else:
+            self.novo_reais_para_bit = round(self.reais_para_bit,3)
+        return self.novo_reais_para_bit, self.reais_para_dolar, self.reais_para_euro
 
-reais_para_bit = (valor / cot_bit)
-if reais_para_bit >= 1:
-       novo_reais_para_bit = str(round(reais_para_bit, 2)).replace('.', ',')
-else:
-    novo_reais_para_bit = str(round(reais_para_bit, 3)).replace('.', ',')
+    def imprimindo_resultado(self):
+        data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
+        print(f"""Na cotação de hoje*, R${self.reais} equivalem a:
+            U$ {self.reais_para_dolar}
+            € {self.reais_para_euro}
+            ₿ {self.novo_reais_para_bit}
+        *Cotação obtida em {data}""")
 
-# Imprimindo os resultados:
-data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
-print (f"""Na cotação de hoje*, R${reais},00 equivalem a:
-    U$ {reais_para_dolar}
-    € {reais_para_euro}
-    ₿ {novo_reais_para_bit}
-*Cotação obtida em {data}""")
+
+if (__name__ == "__main__"):
+    ConversorDeMoedas()
+
 
 
