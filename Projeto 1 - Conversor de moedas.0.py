@@ -1,5 +1,3 @@
-# Projeto 1 - Conversor de Reais para Euros, BitCoin e Dolares
-
 import requests
 from time import gmtime, strftime
 
@@ -9,10 +7,11 @@ class ConversorDeMoedas:
         self.validando_entrada()
         self.obtendo_cotacoes()
         self.convertendo()
+        self.registrando_data()
         self.imprimindo_resultado()
 
     def recebendo_entradas(self):
-        self.reais = input(f'Olá, digite o valor em Reais (R$) que você deseja converter e precione enter: \n')
+        self.reais = input('Olá, digite o valor em Reais (R$) que você deseja converter e precione enter: \n')
         return self.reais
 
     def validando_entrada(self):
@@ -20,7 +19,7 @@ class ConversorDeMoedas:
             try:
                 self.reais = str(self.reais).replace(",",".")
                 self.reais = float(self.reais)
-                print(f"Ok, convertendo R${self.reais}")
+                print("Ok, vamos converter R${:.2f} em Euro, Dolar e BitCoin".format(self.reais))
                 return self.reais
             except:
                 self.reais = input("Você não digitou um valor inválido,"
@@ -37,30 +36,31 @@ class ConversorDeMoedas:
         self.cot_euro = float(euro["bid"])
 
         bitcoin = moeda['BTCBRL']
-        self.cot_bit = float(bitcoin["bid"])
-        return self.cot_dolar, self.cot_euro, self.cot_bit
+        self.cot_btc = float(bitcoin["bid"])
+        return self.cot_dolar, self.cot_euro, self.cot_btc
 
     def convertendo(self):
-        self.reais_para_dolar = round(float(self.reais) / float(self.cot_dolar),2)
-        self.reais_para_euro = round(float(self.reais) / float(self.cot_euro),2)
-        self.reais_para_bit = float(self.reais) / float(self.cot_bit)
-        if self.reais_para_bit > 1:
-            self.novo_reais_para_bit = round(self.reais_para_bit, 2)
+        self.reais_dolar = round(self.reais / self.cot_dolar,2)
+        self.reais_euro  = round(self.reais / self.cot_euro,2)
+        self.reais_bitcoin   = self.reais / self.cot_btc
+        if self.reais_bitcoin > 1:
+            self.reais_btc = round(self.reais_bitcoin,2)
         else:
-            self.novo_reais_para_bit = round(self.reais_para_bit,3)
-        return self.novo_reais_para_bit, self.reais_para_dolar, self.reais_para_euro
-
+            self.reais_btc = round(self.reais_bitcoin,3)
+        return self.reais_dolar, self.reais_btc, self.reais_euro
+    
+    def  registrando_data(self):
+        self.data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
+        return self.data
+    
     def imprimindo_resultado(self):
-        data = strftime("%d-%m-%y às %H:%M:%S", gmtime())
         print(f"""Na cotação de hoje*, R${self.reais} equivalem a:
-            U$ {self.reais_para_dolar}
-            € {self.reais_para_euro}
-            ₿ {self.novo_reais_para_bit}
-        *Cotação obtida em {data}""")
+            U$ {self.reais_dolar}
+            € {self.reais_euro}
+            ₿ {self.reais_btc}
+        *Cotação obtida em {self.data}""")
 
-
-if (__name__ == "__main__"):
-    ConversorDeMoedas()
+ConversorDeMoedas()
 
 
 
